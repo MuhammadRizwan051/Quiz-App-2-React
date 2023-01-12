@@ -15,8 +15,7 @@ function App() {
   let [status, setStatus] = useState('')
   let [showResult, setShowResult] = useState(false)
   let [showOptions, setShowOptions] = useState(false)
-  let [userOptions, setUserOptions] = useState('')
-
+  let [cond, setCond] = useState(false)
 
   let [questions, setQuestions] = useState([
     {
@@ -58,11 +57,10 @@ function App() {
 
 
   let checkQuestion = (a, b) => {
-    setUserOptions(a)
+    setCond(true)
     if (a === b) {
       setShowOptions(true)
       setScore(score + 1)
-      console.log(score)
       setColor('white')
       setBgColor('#2ECC71')
       setStatus('Correct!')
@@ -75,7 +73,9 @@ function App() {
     }
   }
 
+
   let next = () => {
+    setCond(false)
     setShowOptions(false)
     console.log('first')
     setColor('')
@@ -121,6 +121,7 @@ function App() {
     }
   });
 
+
   return (
     <Box sx={{ backgroundColor: 'lightgrey', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       {showResult ? <Result score={score} quizLength={questions.length} /> :
@@ -154,7 +155,7 @@ function App() {
             <Grid container rowSpacing={1} columnSpacing={1} sx={{ marginY: 2 }}>
               {questions[indexNumber].incorrect_answers.map((e, i) => (
                 <Grid item xl={12} key={i} sx={{ marginBottom: 1 }}>
-                  <Button disabled={showOptions} onClick={() => checkQuestion(e, questions[indexNumber].correct_answer)} sx={{ width: '100%', color: color, backgroundColor: bgColor, border: '1px solid grey', borderRadius: 2, paddingY: 2, paddingX: 1, cursor: 'pointer' }}>
+                  <Button disabled={showOptions} onClick={() => checkQuestion(e, questions[indexNumber].correct_answer)} sx={{ width: '100%', color: color, backgroundColor: cond ? (questions[indexNumber].correct_answer === e ? "#2ECC71" : "#FD3832") : "#fff", border: '1px solid grey', borderRadius: 2, paddingY: 2, paddingX: 1, cursor: 'pointer' }}>
                     {e}
                   </Button>
                 </Grid>
@@ -169,7 +170,6 @@ function App() {
                 <Button variant='contained' sx={{ borderRadius: 2, border: 'none', paddingY: 2, paddingX: 5, fontSize: 20 }}>{nextBtn ? 'Next Question' : 'Finish'}</Button>
               </Box>
             }
-
           </Box>
         </Box>
       }
