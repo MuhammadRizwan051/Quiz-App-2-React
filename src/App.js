@@ -305,7 +305,7 @@ function App() {
   }
   useEffect(() => {
     handleOptions()
-  }, [])
+  }, [indexNumber])
 
   useEffect(() => {
     if (sec === 0 && miliSec === 0) {
@@ -317,16 +317,16 @@ function App() {
     questionsHandling()
   }, [])
 
-  let [difficulty, setDifficulty] = useState()
+  let [difficultyStatus, setDifficultyStatus] = useState()
 
   let difficultyLevel = () => {
-    const a = questions[indexNumber].difficulty
-    console.log(a)
-    a === 'hard' ? setDifficulty(3) : a === 'medium' ? setDifficulty(2) : setDifficulty(1)
+    const a = questions[indexNumber].difficulty;
+    console.log(a);
+    a === 'hard' ? setDifficultyStatus(3) : a === 'medium' ? setDifficultyStatus(2) : setDifficultyStatus(1)
   }
   useEffect(() => {
     difficultyLevel()
-  }, [indexNumber])
+  }, [indexNumber, questions])
 
 
   return (
@@ -343,7 +343,7 @@ function App() {
           </Box>
 
           <Box>
-            <Rating value={difficulty} max={3} readOnly />
+            <Rating value={difficultyStatus} max={3} readOnly />
           </Box>
 
           <Grid container sx={{ marginY: 2 }}>
@@ -357,7 +357,7 @@ function App() {
           <Grid container rowSpacing={1} columnSpacing={1} sx={{ marginY: 2 }}>
             {options.map((e, i) => (
               <Grid item xl={12} key={i} sx={{ marginBottom: 1 }}>
-                <Button disabled={showOptions} onClick={() => checkQuestion(e, questions[0].correct_answer)} sx={{ width: '100%', color: color, backgroundColor: cond ? (questions[indexNumber].correct_answer === e ? "#2ECC71" : "#FD3832") : "#fff", border: '1px solid grey', borderRadius: 2, paddingY: 2, paddingX: 1, cursor: 'pointer' }}>
+                <Button disabled={showOptions} onClick={() => checkQuestion(e, questions[indexNumber].correct_answer)} sx={{ width: '100%', color: color, backgroundColor: cond ? (questions[indexNumber].correct_answer === e ? "#2ECC71" : "#FD3832") : "#fff", border: '1px solid grey', borderRadius: 2, paddingY: 2, paddingX: 1, cursor: 'pointer' }}>
                   {e}
                 </Button>
               </Grid>
